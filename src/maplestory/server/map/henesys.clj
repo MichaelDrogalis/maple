@@ -6,19 +6,24 @@
 (def specs {:width  1241
             :height 613})
 
-(def entities (atom []))
+(def connections (ref #{}))
+(def entities (atom #{}))
 
 (defn register-client [connection]
-  (doseq [entity @entities]
-    (.send connection (pr-str {:type :init :message {(:type @entity) @entity}}))
-    (add-watch entity
-               connection
-               (fn [_ _ _ state]
-                 (.send connection (pr-str {:type :update :message {:who (:type @entity) :event @entity}}))))))
+  (dosync
+   (conj @connections connection)
+   (doseq [entity @entities]
+     (.send connection (pr-str {:type :init :message {(:type @entity) @entity}}))
+     (add-watch entity
+                connection
+                (fn [_ _ _ state]
+                  (.send connection (pr-str {:type :update :message {:who (:type @entity) :event @entity}})))))))
 
 (defn unregister-client [connection]
-  (doseq [entity @entities]
-    (remove-watch entity connection)))
+  (dosync
+   (disj @connections connection)
+   (doseq [entity @entities]
+     (remove-watch entity connection))))
 
 (defn spawn! []
   (let [sera-npc (agent (merge sera/spawn-state {:x 750 :x-origin 750}))
