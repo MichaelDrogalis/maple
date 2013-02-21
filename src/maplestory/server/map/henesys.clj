@@ -6,22 +6,27 @@
 (def specs {:width  1241
             :height 613})
 
-(def sera-npc (agent (merge sera/spawn-state {:x 750 :x-origin 750})))
-(def sera-runner (future (scheduler sera-npc sera/actions)))
-
-(def slime-monster (agent (merge slime/spawn-state {:x 800 :x-origin 800})))
-(def slime-runner (future (scheduler slime-monster slime/actions)))
+(def entities (atom []))
 
 (defn register-client [connection]
-  (.send connection (pr-str {:type :init :message {:sera @sera-npc :slime @slime-monster}}))
-  (add-watch sera-npc connection
-             (fn [_ _ _ state]
-               (.send connection (pr-str {:type :update :message {:who :sera :event @sera-npc}}))))
-  (add-watch slime-monster connection
-             (fn [_ _ _ state]
-               (.send connection (pr-str {:type :update :message {:who :slime :event @slime-monster}})))))
+  (doseq [entity @entities]
+    (.send connection (pr-str {:type :init :message {(:type @entity) @entity}}))
+    (add-watch entity
+               connection
+               (fn [_ _ _ state]
+                 (.send connection (pr-str {:type :update :message {:who (:type @entity) :event @entity}}))))))
 
 (defn unregister-client [connection]
-  (remove-watch sera-npc connection)
-  (remove-watch slime-monster connection))
+  (doseq [entity @entities]
+    (remove-watch entity connection)))
+
+(defn spawn! []
+  (let [sera-npc (agent (merge sera/spawn-state {:x 750 :x-origin 750}))
+        slime-monster (agent (merge slime/spawn-state {:x 800 :x-origin 800}))]
+    (swap! entities conj sera-npc)
+    (future (scheduler sera-npc sera/actions))
+    (swap! entities conj slime-monster)
+    (future (scheduler slime-monster slime/actions))))
+
+(spawn!)
 

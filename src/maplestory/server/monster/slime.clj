@@ -3,7 +3,7 @@
 
 (def x-span 205)
 (def discrete-step 40)
-(def spawn-state {:direction :left :action :stand})
+(def spawn-state {:type :slime :direction :left :action :stand})
 
 (defn stand [state]
   (send state (fn [monster] (assoc monster :action :stand)))

@@ -3,7 +3,7 @@
 
 (def x-span 200)
 (def discrete-step 40)
-(def spawn-state {:direction :left :action :walk})
+(def spawn-state {:type :sera :direction :left :action :walk})
 
 (defn blink [state]
   (send state (fn [npc] (assoc npc :action :blink)))
