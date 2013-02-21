@@ -1,12 +1,9 @@
 (ns maplestory.server.monster.slime
-  (:require [maplestory.server.movement :refer [flip-direction scheduler]]))
+  (:require [maplestory.server.movement :refer [flip-direction can-move-right? can-move-left?]]))
 
-(def max-left 390)
-(def max-right 800)
+(def x-span 205)
 (def discrete-step 40)
-(def min-height 500)
-
-(def slime (agent {:x max-right :direction :left :action :stand}))
+(def spawn-state {:direction :left :action :stand})
 
 (defn stand [state]
   (send state (fn [monster] (assoc monster :action :stand)))
@@ -17,12 +14,11 @@
 
 (defn move [state]
   (send state
-        (fn [{:keys [x direction] :as monster}]
-          (cond (and (= direction :left) (> x max-left)) (assoc monster :action :walk :x (- x discrete-step))
-                (and (= direction :left) (<= x max-left)) (flip monster)
-                (and (= direction :right) (< x max-right)) (assoc monster :action :walk :x (+ x discrete-step))
-                (and (= direction :right) (>= x max-right)) (flip monster))))
+        (fn [{:keys [x x-origin direction] :as monster}]
+          (cond (can-move-left? x-origin x x-span direction) (assoc monster :action :walk :x (- x discrete-step))
+                (can-move-right? x-origin x x-span direction) (assoc monster :action :walk :x (+ x discrete-step))
+                :else (flip monster))))
   (Thread/sleep 1000))
 
-(def runner (future (scheduler slime [stand move move move stand move move])))
+(def actions [stand move move move stand move move])
 
