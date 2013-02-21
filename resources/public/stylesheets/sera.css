@@ -1,0 +1,28 @@
+#sera {
+    background: url(/images/sera/character.png) no-repeat top left;
+}
+
+#sera.sera-alert0{ background-position: 0 0; width: 51px; height: 67px; } 
+#sera.sera-alert1{ background-position: 0 -117px; width: 51px; height: 67px; } 
+#sera.sera-angry0{ background-position: 0 -234px; width: 51px; height: 67px; } 
+#sera.sera-blink0{ background-position: 0 -351px; width: 51px; height: 67px; } 
+#sera.sera-blink1{ background-position: 0 -468px; width: 51px; height: 67px; } 
+#sera.sera-blink2{ background-position: 0 -585px; width: 51px; height: 67px; } 
+#sera.sera-blink3{ background-position: 0 -702px; width: 51px; height: 67px; } 
+#sera.sera-blink4{ background-position: 0 -819px; width: 51px; height: 67px; } 
+#sera.sera-blink5{ background-position: 0 -936px; width: 51px; height: 67px; } 
+#sera.sera-blink6{ background-position: 0 -1053px; width: 51px; height: 67px; } 
+#sera.sera-blink7{ background-position: 0 -1170px; width: 51px; height: 67px; } 
+#sera.sera-blink8{ background-position: 0 -1287px; width: 51px; height: 67px; } 
+#sera.sera-hair0{ background-position: 0 -1404px; width: 51px; height: 67px; } 
+#sera.sera-hair1{ background-position: 0 -1521px; width: 51px; height: 67px; } 
+#sera.sera-hair2{ background-position: 0 -1638px; width: 51px; height: 67px; } 
+#sera.sera-image0{ background-position: 0 -1755px; width: 51px; height: 67px; } 
+#sera.sera-move0{ background-position: 0 -1872px; width: 51px; height: 67px; } 
+#sera.sera-move1{ background-position: -101px 0; width: 50px; height: 68px; } 
+#sera.sera-move2{ background-position: -101px -118px; width: 51px; height: 67px; } 
+#sera.sera-move3{ background-position: -101px -235px; width: 51px; height: 68px; } 
+#sera.sera-smile0{ background-position: -101px -353px; width: 51px; height: 67px; } 
+#sera.sera-smile1{ background-position: -101px -470px; width: 51px; height: 67px; } 
+#sera.sera-stand0{ background-position: -101px -587px; width: 51px; height: 67px; }
+
