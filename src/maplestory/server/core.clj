@@ -8,13 +8,13 @@
 
 (.add server (StaticFileHandler. "resources/public"))
 
-(.add server "/sera"
+(.add server "/maps/henesys/socket"
       (proxy [WebSocketHandler] []
         (onOpen [c] (henesys/register-client c))
         (onMessage [c m] (println c ": " m))
         (onClose [c] (henesys/unregister-client c))))
 
-(.add server "/sera-client"
+(.add server "/maps/henesys"
       (proxy [HttpHandler] []
         (handleHttpRequest [_ response _]
           (doto response

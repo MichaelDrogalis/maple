@@ -5,12 +5,12 @@
 (defn sera-view []
   (html
    [:html
-    (include-css "stylesheets/theme.css")
-    (include-css "stylesheets/sera.css")
-    (include-css "stylesheets/slime.css")
+    (include-css "/stylesheets/theme.css")
+    (include-css "/stylesheets/sera.css")
+    (include-css "/stylesheets/slime.css")
     (include-js "http://code.jquery.com/jquery-latest.min.js")
-    (include-js "javascripts/websockets.js")
-    (include-js "javascripts/main.js")
+    (include-js "/javascripts/websockets.js")
+    (include-js "/javascripts/main.js")
     [:body
      [:div#screen]
      [:div#sera]

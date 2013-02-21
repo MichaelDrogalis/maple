@@ -7,8 +7,9 @@
                  [org.webbitserver/webbit "0.4.3"]
                  [hiccup "1.0.2"]]
   :plugins [[lein-cljsbuild "0.3.0"]]
+  :hooks [leiningen.cljsbuild]
   :cljsbuild {:builds [{:source-paths ["src-cljs"]
                         :compiler {:output-to "resources/public/javascripts/main.js"
                                    :optimizations :whitespace
-                                   :pretty-print true}}]}
-  :main maplestory.server.core)
+                                   :pretty-print true}}]})
+

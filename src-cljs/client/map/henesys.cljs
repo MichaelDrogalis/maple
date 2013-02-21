@@ -1,9 +1,7 @@
-(ns client.core
+(ns client.map.henesys
   (:require [client.npc.sera :as sera]
             [client.monster.slime :as slime]
             [cljs.reader :refer [read-string]]))
-
-(def ws (js/$.websocket. "ws://localhost:42800/sera"))
 
 (def open-fn
   (fn [] (.log js/console "Connection established.")))
@@ -24,6 +22,8 @@
       (cond (= (:type data) :init) (init message)
             (= (:type data) :update) (update message)))))
 
-(set! (.-onopen ws) open-fn)
-(set! (.-onmessage ws) message-fn)
+(if (= (apply str (last (partition-by (partial = \/) (.-URL js/document)))) "henesys")
+  (let [ws (js/$.websocket. "ws://localhost:42800/maps/henesys/socket")]
+    (set! (.-onopen ws) open-fn)
+    (set! (.-onmessage ws) message-fn)))
 
