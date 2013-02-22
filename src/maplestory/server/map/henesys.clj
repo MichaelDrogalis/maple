@@ -9,34 +9,48 @@
 (def connections (ref #{}))
 (def entities (atom #{}))
 
+(defn bind-client-to-monster [connection entity]
+  (.send connection (pr-str {:type :init :message {(:type @entity) @entity}})))
+
+(defn add-client-watch [connection entity]
+  (add-watch entity
+             connection
+             (fn [_ _ _ state]
+               (.send connection (pr-str {:type :update :message {:who (:type @entity) :event @entity}})))))
+
 (defn register-client [connection]
   (dosync
-   (conj @connections connection)
+   (commute connections conj connection)
    (doseq [entity @entities]
-     (.send connection (pr-str {:type :init :message {(:type @entity) @entity}}))
-     (add-watch entity
-                connection
-                (fn [_ _ _ state]
-                  (.send connection (pr-str {:type :update :message {:who (:type @entity) :event @entity}})))))))
+     (bind-client-to-monster connection entity)
+     (add-client-watch connection entity))))
 
 (defn unregister-client [connection]
   (dosync
-   (disj @connections connection)
+   (commute connections disj connection)
    (doseq [entity @entities]
      (remove-watch entity connection))))
+
+(defn spawn-entity [entity actions]
+  (swap! entities conj entity)
+  (future (scheduler entity actions))
+  (doseq [connection @connections]
+    (bind-client-to-monster connection entity)
+    (add-client-watch connection entity)))
 
 (defn spawn! []
   (let [sera-npc (agent (merge sera/spawn-state {:x 750 :x-origin 750 :id (name (gensym))}))
         slime-monster (agent (merge slime/spawn-state {:x 800 :x-origin 800 :id (name (gensym))}))
- ;       slime-monster2 (agent (merge slime/spawn-state {:x 600 :x-origin 600 :id (gensym)}))
-        ]
-    (swap! entities conj sera-npc)
-    (future (scheduler sera-npc sera/actions))
-    (swap! entities conj slime-monster)
-    (future (scheduler slime-monster slime/actions))
-;    (swap! entities conj slime-monster2)
-;    (future (scheduler slime-monster2 slime/actions))
-    ))
+        slime-monster2 (agent (merge slime/spawn-state {:x 600 :x-origin 600 :id (gensym)}))]
+    (spawn-entity sera-npc sera/actions)
+    (spawn-entity slime-monster (shuffle slime/actions))
+    (spawn-entity slime-monster2 (shuffle slime/actions))))
+
+(comment (def s (agent (merge slime/spawn-state {:x 500 :x-origin 500 :id (gensym)})))
+         (swap! entities conj s)
+         (future (scheduler s (shuffle slime/actions)))
+         (spawn-entity s (shuffle slime/actions)))
+
 
 (spawn!)
 

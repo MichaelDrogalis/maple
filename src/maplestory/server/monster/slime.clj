@@ -12,6 +12,9 @@
 (defn flip [{:keys [direction] :as monster}]
   (assoc monster :action :flip :direction (flip-direction direction)))
 
+(defn flip-action [state]
+  (send state (fn [monster] (flip monster))))
+
 (defn move [state]
   (send state
         (fn [{:keys [x x-origin direction] :as monster}]
@@ -20,5 +23,5 @@
                 :else (flip monster))))
   (Thread/sleep 1000))
 
-(def actions [stand move move move stand move move])
+(def actions [stand move move move stand move move flip-action])
 
