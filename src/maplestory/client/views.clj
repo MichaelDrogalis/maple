@@ -12,7 +12,5 @@
     (include-js "/javascripts/websockets.js")
     (include-js "/javascripts/main.js")
     [:body
-     [:div#screen]
-     [:div#sera]
-     [:div#slime]]]))
+     [:div#screen]]]))
 

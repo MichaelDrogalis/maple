@@ -26,12 +26,17 @@
      (remove-watch entity connection))))
 
 (defn spawn! []
-  (let [sera-npc (agent (merge sera/spawn-state {:x 750 :x-origin 750}))
-        slime-monster (agent (merge slime/spawn-state {:x 800 :x-origin 800}))]
+  (let [sera-npc (agent (merge sera/spawn-state {:x 750 :x-origin 750 :id (name (gensym))}))
+        slime-monster (agent (merge slime/spawn-state {:x 800 :x-origin 800 :id (name (gensym))}))
+ ;       slime-monster2 (agent (merge slime/spawn-state {:x 600 :x-origin 600 :id (gensym)}))
+        ]
     (swap! entities conj sera-npc)
     (future (scheduler sera-npc sera/actions))
     (swap! entities conj slime-monster)
-    (future (scheduler slime-monster slime/actions))))
+    (future (scheduler slime-monster slime/actions))
+;    (swap! entities conj slime-monster2)
+;    (future (scheduler slime-monster2 slime/actions))
+    ))
 
 (spawn!)
 

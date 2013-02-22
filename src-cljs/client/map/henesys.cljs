@@ -3,11 +3,14 @@
             [client.monster.slime :as slime]
             [cljs.reader :refer [read-string]]))
 
+(def entities (atom #{}))
+
 (def open-fn
   (fn [] (.log js/console "Connection established.")))
 
 (defn init [environment]
   (doseq [[entity state] environment]
+    (swap! entities conj (:id state))
     (cond (= entity :sera) (sera/init state)
           (= entity :slime) (slime/init state))))
 

@@ -4,7 +4,7 @@
     height: 613px;
 }
 
-#sera {
+[type="sera"] {
     position: absolute;
     top: 230px;
     background-image: url("/images/sera/character.png");
@@ -12,7 +12,7 @@
     height: 67px;
 }
 
-#slime {
+[type="slime"] {
     position: absolute;
     top: 481px;
     background-image: url("/images/slime/character.png");
