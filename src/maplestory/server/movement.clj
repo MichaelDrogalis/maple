@@ -14,7 +14,10 @@
        (= direction :right)))
 
 (defn scheduler [agent actions]
-  (doseq [action actions]
-    (action agent))
+  (doseq [action (shuffle actions)]
+    (if (sequential? action)
+      (doseq [subaction action]
+        (subaction agent))
+      (action agent)))
   (recur agent actions))
 

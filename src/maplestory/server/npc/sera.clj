@@ -40,5 +40,5 @@
                 :else (flip npc))))
   (Thread/sleep 1000))
 
-(def actions [walk walk blink walk walk smile walk walk blink walk walk hair walk alert angry walk blink pause])
+(def actions [[walk walk blink walk] smile hair alert angry pause walk walk])
 
