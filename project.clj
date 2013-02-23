@@ -5,7 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.0-RC16"]
                  [org.webbitserver/webbit "0.4.3"]
-                 [hiccup "1.0.2"]]
+                 [hiccup "1.0.2"]
+                 [hiccups "0.2.0"]]
   :plugins [[lein-cljsbuild "0.3.0"]]
   :hooks [leiningen.cljsbuild]
   :cljsbuild {:builds [{:source-paths ["src-cljs"]

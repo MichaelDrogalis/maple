@@ -40,17 +40,9 @@
 
 (defn spawn! []
   (let [sera-npc (agent (merge sera/spawn-state {:x 750 :x-origin 750 :id (name (gensym))}))
-        slime-monster (agent (merge slime/spawn-state {:x 800 :x-origin 800 :id (name (gensym))}))
-        slime-monster2 (agent (merge slime/spawn-state {:x 600 :x-origin 600 :id (gensym)}))]
+        slime-monster (agent (merge slime/spawn-state {:x 800 :x-origin 800 :id (name (gensym))}))]
     (spawn-entity sera-npc sera/actions)
-    (spawn-entity slime-monster (shuffle slime/actions))
-    (spawn-entity slime-monster2 (shuffle slime/actions))))
-
-(comment (def s (agent (merge slime/spawn-state {:x 500 :x-origin 500 :id (gensym)})))
-         (swap! entities conj s)
-         (future (scheduler s (shuffle slime/actions)))
-         (spawn-entity s (shuffle slime/actions)))
-
+    (spawn-entity slime-monster (shuffle slime/actions))))
 
 (spawn!)
 

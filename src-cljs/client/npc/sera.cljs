@@ -1,9 +1,14 @@
 (ns client.npc.sera
-  (:require [client.jquery :refer [jq jq-id]]
+  (:require-macros [hiccups.core :refer [defhtml]])
+  (:require [hiccups.runtime :as hrt]
+            [client.jquery :refer [jq jq-id]]
             [client.animation :refer [swap-image!]]))
 
+(defhtml sera-container [id]
+  [:div {:type :sera :id id}])
+
 (defn init [{:keys [id x direction]}]
-  (.append (jq "body") (str "<div type=\"sera\" id=\"" id "\"></div>"))
+  (.append (jq "body") (sera-container id))
   (.css (jq-id id) "left" x)
   (if (= direction :right)
     (.addClass (jq-id id) "mirrored")))
@@ -30,9 +35,9 @@
   (swap-image! id id 500 ["sera-angry0"])
   (swap-image! id id 1500 ["sera-angry0"]))
 
-(defmethod update :walk [{:keys [id x]}]
+(defmethod update :walk [{:keys [id x y]}]
   (swap-image! id id 300 ["sera-move0" "sera-move1" "sera-move2" "sera-move3"])
-  (.animate (jq-id id) (clj->js {:left x}) 1000))
+  (.animate (jq-id id) (clj->js {:left x :top y}) 1000))
 
 (defmethod update :flip [{:keys [id direction]}]
   (if (= direction :left)
