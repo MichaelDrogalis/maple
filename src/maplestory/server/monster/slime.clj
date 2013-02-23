@@ -17,11 +17,15 @@
 
 (defn move [state]
   (send state
-        (fn [{:keys [x x-origin direction] :as monster}]
-          (cond (can-move-left? x-origin x x-span direction) (assoc monster :action :walk :x (- x discrete-step))
-                (can-move-right? x-origin x x-span direction) (assoc monster :action :walk :x (+ x discrete-step))
+        (fn [{:keys [x origin direction] :as monster}]
+          (cond (can-move-left? (:x origin) x x-span direction) (assoc monster :action :walk :x (- x discrete-step))
+                (can-move-right? (:x origin) x x-span direction) (assoc monster :action :walk :x (+ x discrete-step))
                 :else (flip monster))))
   (Thread/sleep 1000))
 
 (def actions [[move move move] stand flip-action])
+
+(defn birth [& {:as options}]
+  (let [monster-data (merge spawn-state options (:origin options) {:id (name (gensym))})]
+    (agent monster-data)))
 

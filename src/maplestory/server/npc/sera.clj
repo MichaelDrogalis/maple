@@ -3,7 +3,7 @@
 
 (def x-span 200)
 (def discrete-step 40)
-(def spawn-state {:type :sera :direction :left :action :walk :y 230})
+(def spawn-state {:type :sera :origin {:x 750 :y 230} :direction :left :action :walk})
 
 (defn blink [state]
   (send state (fn [npc] (assoc npc :action :blink)))
@@ -34,11 +34,15 @@
 
 (defn walk [state]
   (send state
-        (fn [{:keys [x x-origin direction] :as npc}]
-          (cond (can-move-left? x-origin x x-span direction) (assoc npc :action :walk :x (- x discrete-step))
-                (can-move-right? x-origin x x-span direction) (assoc npc :action :walk :x (+ x discrete-step))
+        (fn [{:keys [x origin direction] :as npc}]
+          (cond (can-move-left? (:x origin) x x-span direction) (assoc npc :action :walk :x (- x discrete-step))
+                (can-move-right? (:x origin) x x-span direction) (assoc npc :action :walk :x (+ x discrete-step))
                 :else (flip npc))))
   (Thread/sleep 1000))
 
-(def actions [[walk walk blink walk] smile hair alert angry pause walk walk])
+(def actions [[walk walk blink walk] smile walk hair walk alert angry walk pause])
+
+(defn birth [& options]
+  (let [npc-data (merge spawn-state (:origin spawn-state) options {:id (name (gensym))})]
+    (agent npc-data)))
 

@@ -39,8 +39,8 @@
     (add-client-watch connection entity)))
 
 (defn spawn! []
-  (let [sera-npc (agent (merge sera/spawn-state {:x 750 :x-origin 750 :id (name (gensym))}))
-        slime-monster (agent (merge slime/spawn-state {:x 800 :x-origin 800 :id (name (gensym))}))]
+  (let [sera-npc (sera/birth)
+        slime-monster (slime/birth :origin {:x 750 :y 500})]
     (spawn-entity sera-npc sera/actions)
     (spawn-entity slime-monster (shuffle slime/actions))))
 
