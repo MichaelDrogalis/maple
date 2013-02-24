@@ -9,21 +9,34 @@
   (send state (fn [monster] (assoc monster :action :stand)))
   (Thread/sleep 800))
 
-(defn flip [{:keys [direction] :as monster}]
-  (assoc monster :action :flip :direction (flip-direction direction)))
-
 (defn flip-action [state]
-  (send state (fn [monster] (flip monster))))
+  (send state
+        (fn [{:keys [direction] :as monster}]
+          (assoc monster :action :flip :direction (flip-direction direction)))))
+
+(defn move-subactions [state f]
+  (let [xs [5 5 5 15 5 5 5]
+        ys [-5 -5 -10 -30 0 30 20]
+        ns  (range)]
+    (doseq [[x-inc y-inc n] (map list xs ys ns)]
+      (send state
+            (fn [{:keys [action subaction x y] :as monster}]
+              (assoc monster :action :walk :subaction n :x (f x x-inc) :y (+ y y-inc))))
+      (Thread/sleep 142))))
+
+(defn move-subactions-right [state]
+  (move-subactions state +))
+
+(defn move-subactions-left [state]
+  (move-subactions state -))
 
 (defn move [state]
-  (send state
-        (fn [{:keys [x origin direction] :as monster}]
-          (cond (can-move-left? (:x origin) x x-span direction) (assoc monster :action :walk :x (- x discrete-step))
-                (can-move-right? (:x origin) x x-span direction) (assoc monster :action :walk :x (+ x discrete-step))
-                :else (flip monster))))
-  (Thread/sleep 1000))
+  (let [{:keys [x origin direction] :as monster} @state]
+    (cond (can-move-left? (:x origin) x x-span direction) (move-subactions-left state)
+          (can-move-right? (:x origin) x x-span direction) (move-subactions-right state)
+          :else (flip-action state))))
 
-(def actions [[move move move] stand flip-action])
+(def actions [move move move stand flip-action])
 
 (defn birth [& {:as options}]
   (let [monster-data (merge spawn-state options (:origin options) {:id (name (gensym))})]

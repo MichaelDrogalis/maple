@@ -24,10 +24,10 @@
 (defmethod update :stand [{:keys [id]}]
   (swap-image! id 1500 ["slime-stand0" "slime-stand1" "slime-stand2"]))
 
-(defmethod update :walk [{:keys [id x y]}]
-  (swap-image! id 300 ["slime-move0" "slime-move1" "slime-move2" "slime-move3"
-                          "slime-move4" "slime-move5" "slime-move6"])
-  (.animate (jq-id id) (clj->js {:left x}) 1000))
+(defmethod update :walk [{:keys [id x y subaction]}]
+  (let [delay-time 142]
+    (swap-image! id delay-time [(str "slime-move" subaction)])
+    (.animate (jq-id id) (clj->js {:left x :top y}) delay-time)))
 
 (defmethod update :default [])
 
