@@ -1,0 +1,14 @@
+[type="stump"] {
+    background: url(/images/stump/character.png) no-repeat top left;
+}
+
+.stump-die10{ background-position: 0 0; width: 61px; height: 52px; } 
+.stump-die11{ background-position: 0 -102px; width: 58px; height: 53px; } 
+.stump-die12{ background-position: 0 -205px; width: 61px; height: 45px; } 
+.stump-hit10{ background-position: 0 -300px; width: 57px; height: 58px; } 
+.stump-move0{ background-position: 0 -408px; width: 62px; height: 51px; } 
+.stump-move1{ background-position: 0 -509px; width: 66px; height: 54px; } 
+.stump-move2{ background-position: 0 -613px; width: 61px; height: 51px; } 
+.stump-move3{ background-position: 0 -714px; width: 64px; height: 54px; } 
+.stump-stand0{ background-position: 0 -818px; width: 62px; height: 51px; } 
+

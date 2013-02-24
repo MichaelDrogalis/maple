@@ -1,6 +1,6 @@
 (ns client.map.henesys
   (:require [client.npc.sera :as sera]
-            [client.monster.slime :as slime]
+            [client.monster.stump :as stump]
             [cljs.reader :refer [read-string]]))
 
 (def entities (atom #{}))
@@ -12,11 +12,13 @@
   (doseq [[entity state] environment]
     (swap! entities conj (:id state))
     (cond (= entity :sera) (sera/init state)
-          (= entity :slime) (slime/init state))))
+          (= entity :slime) (slime/init state)
+          (= entity :stump) (stump/init state))))
 
 (defn update [{:keys [who event]}]
   (cond (= who :sera) (sera/update event)
-        (= who :slime) (slime/update event)))
+        (= who :slime) (slime/update event)
+        (= who :stump) (stump/update event)))
 
 (def message-fn
   (fn [response]

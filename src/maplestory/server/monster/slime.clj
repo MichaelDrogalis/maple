@@ -2,7 +2,6 @@
   (:require [maplestory.server.movement :refer [flip-direction can-move-right? can-move-left?]]))
 
 (def x-span 205)
-(def discrete-step 40)
 (def spawn-state {:type :slime :direction :left :action :stand :y 500})
 
 (defn stand [state]

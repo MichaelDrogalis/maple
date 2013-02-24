@@ -8,6 +8,7 @@
     (include-css "/stylesheets/theme.css")
     (include-css "/stylesheets/sera.css")
     (include-css "/stylesheets/slime.css")
+    (include-css "/stylesheets/stump.css")
     (include-js "http://code.jquery.com/jquery-latest.min.js")
     (include-js "/javascripts/websockets.js")
     (include-js "/javascripts/main.js")

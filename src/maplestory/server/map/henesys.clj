@@ -1,6 +1,6 @@
 (ns maplestory.server.map.henesys
   (:require [maplestory.server.npc.sera :as sera]
-            [maplestory.server.monster.slime :as slime]
+            [maplestory.server.monster.stump :as stump]
             [maplestory.server.movement :refer [scheduler]]))
 
 (def specs {:width  1241
@@ -40,9 +40,9 @@
 
 (defn spawn! []
   (let [sera-npc (sera/birth)
-        slime-monster (slime/birth :origin {:x 750 :y 500})]
+        stump-monster (stump/birth :origin {:x 650 :y 495})]
     (spawn-entity sera-npc sera/actions)
-    (spawn-entity slime-monster slime/actions)))
+    (spawn-entity stump-monster stump/actions)))
 
 (spawn!)
 

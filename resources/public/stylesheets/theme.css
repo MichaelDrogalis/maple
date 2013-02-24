@@ -19,6 +19,14 @@
     height: 49px;    
 }
 
+[type="stump"] {
+    position: absolute;
+    top: 500px;
+    background-image: url("/images/stump/character.png");
+    width: 62px;
+    height: 51px;    
+}
+
 .mirrored {
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
