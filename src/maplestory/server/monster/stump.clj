@@ -19,7 +19,7 @@
         (fn [{:keys [x origin direction] :as monster}]
           (cond (can-move-left? (:x origin) x x-span direction) (assoc monster :action :walk :x (- x discrete-step))
                 (can-move-right? (:x origin) x x-span direction) (assoc monster :action :walk :x (+ x discrete-step))
-                :else (flip monster))))
+                :else (flip-action state))))
   (Thread/sleep 1000))
 
 (def actions [[walk walk walk walk] stand walk flip-action])
