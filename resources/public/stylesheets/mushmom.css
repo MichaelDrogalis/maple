@@ -1,0 +1,23 @@
+#screen {
+    background-image: url("/images/map/mushmom.png");
+    width: 1176px;
+    height: 1154px;
+}
+
+[type="stump"] {
+    position: absolute;
+    background-image: url("/images/stump/character.png");
+    width: 62px;
+    height: 51px;
+    visibility: hidden;
+}
+
+.mirrored {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+

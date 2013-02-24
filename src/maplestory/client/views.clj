@@ -2,16 +2,21 @@
   (:require [hiccup.core :refer [html]]
             [hiccup.page :refer [include-js include-css]]))
 
-(defn sera-view []
+(defn maple-view [map-name]
   (html
    [:html
-    (include-css "/stylesheets/theme.css")
+    (include-css (str "/stylesheets/" map-name ".css"))
     (include-css "/stylesheets/sera.css")
-    (include-css "/stylesheets/slime.css")
     (include-css "/stylesheets/stump.css")
     (include-js "http://code.jquery.com/jquery-latest.min.js")
     (include-js "/javascripts/websockets.js")
     (include-js "/javascripts/main.js")
     [:body
      [:div#screen]]]))
+
+(defn henesys-view []
+  (maple-view "henesys"))
+
+(defn mushmom-view []
+  (maple-view "mushmom"))
 

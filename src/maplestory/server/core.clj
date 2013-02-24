@@ -1,6 +1,7 @@
 (ns maplestory.server.core
   (:require [maplestory.server.map.henesys :as henesys]
-            [maplestory.client.views :refer [sera-view]])
+            [maplestory.server.map.mushmom :as mushmom]
+            [maplestory.client.views :refer [henesys-view mushmom-view]])
   (:import [org.webbitserver WebServer WebServers WebSocketHandler HttpHandler]
            [org.webbitserver.handler StaticFileHandler]))
 
@@ -19,8 +20,22 @@
         (handleHttpRequest [_ response _]
           (doto response
             (.header "Content-Type", "text/html")
-            (.content (sera-view))
+            (.content (henesys-view))
             (.end)))))
+
+(.add server "/maps/mushmom"
+      (proxy [HttpHandler] []
+        (handleHttpRequest [_ response _]
+          (doto response
+            (.header "Content-Type", "text/html")
+            (.content (mushmom-view))
+            (.end)))))
+
+(.add server "/maps/mushmom/socket"
+      (proxy [WebSocketHandler] []
+        (onOpen [c] (mushmom/register-client c))
+        (onMessage [c m] (println c ": " m))
+        (onClose [c] (mushmom/unregister-client c))))
 
 (.start server)
 
