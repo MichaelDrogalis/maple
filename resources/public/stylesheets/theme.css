@@ -13,7 +13,6 @@
 
 [type="slime"] {
     position: absolute;
-    top: 481px;
     background-image: url("/images/slime/character.png");
     width: 64px;
     height: 49px;    
@@ -21,10 +20,10 @@
 
 [type="stump"] {
     position: absolute;
-    top: 500px;
     background-image: url("/images/stump/character.png");
     width: 62px;
-    height: 51px;    
+    height: 51px;
+    visibility: hidden;
 }
 
 .mirrored {

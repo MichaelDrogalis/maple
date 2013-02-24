@@ -40,7 +40,7 @@
 
 (defn spawn! []
   (let [sera-npc (sera/birth)
-        stump-monster (stump/birth :origin {:x 650 :y 495})]
+        stump-monster (stump/birth :origin {:x 600 :y 496})]
     (spawn-entity sera-npc sera/actions)
     (spawn-entity stump-monster stump/actions)))
 

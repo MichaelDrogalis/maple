@@ -6,20 +6,21 @@
 (def spawn-state {:type :stump :origin {:x 650 :y 500} :direction :left :action :walk})
 
 (defn stand [state]
-  (send state (fn [npc] (assoc npc :action :stand)))
+  (send state (fn [monster] (assoc monster :action :stand)))
   (Thread/sleep 2000))
 
+(defn flip [{:keys [direction] :as monster}]
+  (assoc monster :action :flip :direction (flip-direction direction)))
+
 (defn flip-action [state]
-  (send state
-        (fn [{:keys [direction] :as monster}]
-          (assoc monster :action :flip :direction (flip-direction direction)))))
+  (send state flip))
 
 (defn walk [state]
   (send state
         (fn [{:keys [x origin direction] :as monster}]
           (cond (can-move-left? (:x origin) x x-span direction) (assoc monster :action :walk :x (- x discrete-step))
                 (can-move-right? (:x origin) x x-span direction) (assoc monster :action :walk :x (+ x discrete-step))
-                :else (flip-action state))))
+                :else (flip state))))
   (Thread/sleep 1000))
 
 (def actions [[walk walk walk walk] stand walk flip-action])

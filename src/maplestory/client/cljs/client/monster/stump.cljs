@@ -10,9 +10,10 @@
 (defn init [{:keys [id x y direction]}]
   (.append (jq "body") (stump-container id))
   (.css (jq-id id) "left" x)
-  (.css (jq-id id) "right" y)
+  (.css (jq-id id) "top" y)
   (if (= direction :right)
-    (.addClass (jq-id id) "mirrored")))
+    (.addClass (jq-id id) "mirrored"))
+  (.css (jq-id id) "visibility" "visible"))
 
 (defmulti update :action)
 

@@ -5,7 +5,7 @@
             [client.animation :refer [swap-image!]]))
 
 (defhtml sera-container [id]
-  [:div {:type :sera :id id}])
+  [:div {:type :sera :id id :class "stump-stand0"}])
 
 (defn init [{:keys [id x y direction]}]
   (.append (jq "body") (sera-container id))
