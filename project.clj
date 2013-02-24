@@ -9,7 +9,7 @@
                  [hiccups "0.2.0"]]
   :plugins [[lein-cljsbuild "0.3.0"]]
   :hooks [leiningen.cljsbuild]
-  :cljsbuild {:builds [{:source-paths ["src-cljs"]
+  :cljsbuild {:builds [{:source-paths ["src/maplestory/client/cljs"]
                         :compiler {:output-to "resources/public/javascripts/main.js"
                                    :optimizations :whitespace
                                    :pretty-print true}}]})
