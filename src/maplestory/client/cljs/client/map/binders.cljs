@@ -1,4 +1,4 @@
-(ns client.map.henesys
+(ns client.map.binders
   (:require [client.npc.sera :as sera]
             [client.monster.stump :as stump]
             [cljs.reader :refer [read-string]]))
@@ -27,8 +27,13 @@
       (cond (= (:type data) :init) (init message)
             (= (:type data) :update) (update message)))))
 
-(if (= (apply str (last (partition-by (partial = \/) (.-URL js/document)))) "henesys")
-  (let [ws (js/$.websocket. "ws://localhost:42800/maps/henesys/socket")]
-    (set! (.-onopen ws) open-fn)
-    (set! (.-onmessage ws) message-fn)))
+(defn map-for-url []
+  (apply str (last (partition-by (partial = \/) (.-URL js/document)))))
+
+(defn socket-for-map [map-name]
+  (js/$.websocket. (str "ws://localhost:42800/maps/" map-name "/socket")))
+
+(let [ws (socket-for-map (map-for-url))]
+  (set! (.-onopen ws) open-fn)
+  (set! (.-onmessage ws) message-fn))
 
