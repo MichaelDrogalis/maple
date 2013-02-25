@@ -9,9 +9,14 @@
 (def connections (ref #{}))
 (def entities (atom #{}))
 
+(def spawn-in-mushmom
+  (fn [npc actions]
+    (b/spawn-entity connections entities npc actions)))
+
 (defn spawn! []
   (doseq [_ (range 5)]
-    (b/spawn-entity connections (stump/birth :origin {:x 550 :y 560}) entities stump/actions)))
+    (let [monster (stump/birth :origin {:x 550 :y 560})]
+      (spawn-in-mushmom monster stump/actions))))
 
 (spawn!)
 

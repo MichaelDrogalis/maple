@@ -9,11 +9,15 @@
 (def connections (ref #{}))
 (def entities (atom #{}))
 
+(def spawn-in-henesys
+  (fn [npc actions]
+    (b/spawn-entity connections entities npc actions)))
+
 (defn spawn! []
   (let [sera-npc (sera/birth)
         stump-monster (stump/birth :origin {:x 600 :y 496})]
-    (b/spawn-entity connections sera-npc entities sera/actions)
-    (b/spawn-entity connections stump-monster entities stump/actions)))
+    (spawn-in-henesys sera-npc sera/actions)
+    (spawn-in-henesys stump-monster stump/actions)))
 
 (spawn!)
 

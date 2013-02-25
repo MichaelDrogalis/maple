@@ -23,7 +23,7 @@
    (doseq [entity @entities]
      (remove-watch entity connection))))
 
-(defn spawn-entity [connections entity entities actions]
+(defn spawn-entity [connections entities entity actions]
   (swap! entities conj entity)
   (future (scheduler entity actions))
   (doseq [connection @connections]
