@@ -1,17 +1,8 @@
 (ns maplestory.server.monster.slime
-  (:require [maplestory.server.movement :refer [flip-direction can-move-right? can-move-left?]]))
+  (:require [maplestory.server.movement :refer [can-move-right? can-move-left? stand! flip!]]))
 
 (def x-span 205)
 (def spawn-state {:type :slime :direction :left :action :stand :y 500})
-
-(defn stand [state]
-  (send state (fn [monster] (assoc monster :action :stand)))
-  (Thread/sleep 800))
-
-(defn flip-action [state]
-  (send state
-        (fn [{:keys [direction] :as monster}]
-          (assoc monster :action :flip :direction (flip-direction direction)))))
 
 (defn move-subactions [state f]
   (let [xs [5 5 5 15 5 5 5]
@@ -33,11 +24,7 @@
   (let [{:keys [x origin direction] :as monster} @state]
     (cond (can-move-left? (:x origin) x x-span direction) (move-subactions-left state)
           (can-move-right? (:x origin) x x-span direction) (move-subactions-right state)
-          :else (flip-action state))))
+          :else (flip! state))))
 
-(def actions [move move move stand flip-action])
-
-(defn birth [& {:as options}]
-  (let [monster-data (merge spawn-state options (:origin options) {:id (name (gensym))})]
-    (agent monster-data)))
+(def actions [move move move stand! flip!])
 

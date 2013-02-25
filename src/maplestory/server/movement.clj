@@ -13,6 +13,16 @@
   (and (< (- current origin) span)
        (= direction :right)))
 
+(defn stand! [state]
+  (send state (fn [monster] (assoc monster :action :stand)))
+  (Thread/sleep 2000))
+
+(defn flip [{:keys [direction] :as monster}]
+  (assoc monster :action :flip :direction (flip-direction direction)))
+
+(defn flip! [state]
+  (send state flip))
+
 (defn scheduler [agent actions]
   (doseq [action (shuffle actions)]
     (if (sequential? action)

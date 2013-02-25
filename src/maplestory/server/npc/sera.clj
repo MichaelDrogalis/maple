@@ -1,5 +1,5 @@
 (ns maplestory.server.npc.sera
-  (:require [maplestory.server.movement :refer [flip-direction can-move-right? can-move-left?]]))
+  (:require [maplestory.server.movement :refer [flip-direction can-move-right? can-move-left? flip]]))
 
 (def x-span 200)
 (def discrete-step 40)
@@ -29,9 +29,6 @@
   (send state (fn [npc] (assoc npc :action :pause)))
   (Thread/sleep 3000))
 
-(defn flip [{:keys [direction] :as npc}]
-  (assoc npc :action :flip :direction (flip-direction direction)))
-
 (defn walk [state]
   (send state
         (fn [{:keys [x origin direction] :as npc}]
@@ -41,8 +38,4 @@
   (Thread/sleep 1000))
 
 (def actions [[walk walk blink walk] smile walk hair walk alert angry walk pause])
-
-(defn birth [& options]
-  (let [npc-data (merge spawn-state (:origin spawn-state) options {:id (name (gensym))})]
-    (agent npc-data)))
 

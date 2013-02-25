@@ -1,31 +1,16 @@
 (ns maplestory.server.monster.stump
-  (:require [maplestory.server.movement :refer [flip-direction can-move-right? can-move-left?]]))
+  (:require [maplestory.server.movement :refer [can-move-right? can-move-left? stand! flip! flip]]))
 
-(def discrete-step 20)
-(def spawn-state {:type :stump :origin {:x 650 :y 500}
+(def spawn-state {:type :stump :origin {:x 650 :y 500} :x-step 20
                   :direction :left :x-span 100 :action :walk})
-
-(defn stand [state]
-  (send state (fn [monster] (assoc monster :action :stand)))
-  (Thread/sleep 2000))
-
-(defn flip [{:keys [direction] :as monster}]
-  (assoc monster :action :flip :direction (flip-direction direction)))
-
-(defn flip-action [state]
-  (send state flip))
 
 (defn walk [state]
   (send state
-        (fn [{:keys [x x-span origin direction] :as monster}]
-          (cond (can-move-left? (:x origin) x x-span direction) (assoc monster :action :walk :x (- x discrete-step))
-                (can-move-right? (:x origin) x x-span direction) (assoc monster :action :walk :x (+ x discrete-step))
+        (fn [{:keys [x x-span x-step origin direction] :as monster}]
+          (cond (can-move-left? (:x origin) x x-span direction) (assoc monster :action :walk :x (- x x-step))
+                (can-move-right? (:x origin) x x-span direction) (assoc monster :action :walk :x (+ x x-step))
                 :else (flip monster))))
   (Thread/sleep 1000))
 
-(def actions [[walk walk walk walk] stand walk flip-action])
-
-(defn birth [& {:as options}]
-  (let [monster-data (merge spawn-state (:origin spawn-state) options (:origin options) {:id (name (gensym))})]
-    (agent monster-data)))
+(def actions [[walk walk walk walk] stand! walk flip!])
 
