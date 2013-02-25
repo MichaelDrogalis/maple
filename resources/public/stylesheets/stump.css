@@ -1,5 +1,7 @@
 [type="stump"] {
+    position: absolute;
     background: url(/images/stump/character.png) no-repeat top left;
+    visibility: hidden;
 }
 
 .stump-die10{ background-position: 0 0; width: 61px; height: 52px; } 

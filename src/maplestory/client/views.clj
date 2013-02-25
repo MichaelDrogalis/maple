@@ -6,6 +6,7 @@
   (html
    [:html
     (include-css (str "/stylesheets/" map-name ".css"))
+    (include-css "/stylesheets/movement.css")
     (include-css "/stylesheets/sera.css")
     (include-css "/stylesheets/stump.css")
     (include-js "http://code.jquery.com/jquery-latest.min.js")

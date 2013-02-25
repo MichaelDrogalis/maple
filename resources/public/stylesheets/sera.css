@@ -1,5 +1,8 @@
 [type="sera"] {
     background: url(/images/sera/character.png) no-repeat top left;
+    position: absolute;
+    width: 51px;
+    height: 67px;
 }
 
 .sera-alert0{ background-position: 0 0; width: 51px; height: 67px; } 
