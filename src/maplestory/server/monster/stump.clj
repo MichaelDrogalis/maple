@@ -16,7 +16,6 @@
   (send state flip))
 
 (defn walk [state]
-  (println @state)
   (send state
         (fn [{:keys [x origin direction] :as monster}]
           (cond (can-move-left? (:x origin) x x-span direction) (assoc monster :action :walk :x (- x discrete-step))
