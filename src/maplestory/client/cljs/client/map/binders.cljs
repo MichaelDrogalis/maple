@@ -8,23 +8,32 @@
 (def open-fn
   (fn [] (.log js/console "Connection established.")))
 
-(defn init [environment]
+(defmulti init (fn [entity _] entity))
+
+(defmethod init :sera [_ state] (sera/init state))
+
+(defmethod init :slime [_ state] (slime/init state))
+
+(defmethod init :stump [_ state] (stump/init state))
+
+(defn initialize [environment]
   (doseq [[entity state] environment]
     (swap! entities conj (:id state))
-    (cond (= entity :sera) (sera/init state)
-          (= entity :slime) (slime/init state)
-          (= entity :stump) (stump/init state))))
+    (init entity state)))
 
-(defn update [{:keys [who event]}]
-  (cond (= who :sera) (sera/update event)
-        (= who :slime) (slime/update event)
-        (= who :stump) (stump/update event)))
+(defmulti update :who)
+
+(defmethod update :sera [{:keys [event]}] (sera/update event))
+
+(defmethod update :slime [{:keys [event]}] (slime/update event))
+
+(defmethod update :stump [{:keys [event]}] (stump/update event))
 
 (def message-fn
   (fn [response]
     (let [data (read-string (.-data response))
           message (:message data)]
-      (cond (= (:type data) :init) (init message)
+      (cond (= (:type data) :init) (initialize message)
             (= (:type data) :update) (update message)))))
 
 (defn map-for-url []
