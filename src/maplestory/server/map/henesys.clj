@@ -6,9 +6,6 @@
 (def specs {:width  1241
             :height 613})
 
-(def connections (ref #{}))
-(def entities (atom #{}))
-
 (let [map-name :henesys]
   (b/register-map! map-name)
   (b/spawn map-name (sera/birth) sera/actions)
