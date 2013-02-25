@@ -1,9 +1,9 @@
 (ns maplestory.server.monster.stump
   (:require [maplestory.server.movement :refer [flip-direction can-move-right? can-move-left?]]))
 
-(def x-span 100)
 (def discrete-step 20)
-(def spawn-state {:type :stump :origin {:x 650 :y 500} :direction :left :action :walk})
+(def spawn-state {:type :stump :origin {:x 650 :y 500}
+                  :direction :left :x-span 100 :action :walk})
 
 (defn stand [state]
   (send state (fn [monster] (assoc monster :action :stand)))
@@ -17,7 +17,7 @@
 
 (defn walk [state]
   (send state
-        (fn [{:keys [x origin direction] :as monster}]
+        (fn [{:keys [x x-span origin direction] :as monster}]
           (cond (can-move-left? (:x origin) x x-span direction) (assoc monster :action :walk :x (- x discrete-step))
                 (can-move-right? (:x origin) x x-span direction) (assoc monster :action :walk :x (+ x discrete-step))
                 :else (flip monster))))

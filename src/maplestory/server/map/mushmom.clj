@@ -14,9 +14,8 @@
     (b/spawn-entity connections entities npc actions)))
 
 (defn spawn! []
-  (doseq [_ (range 5)]
-    (let [monster (stump/birth :origin {:x 550 :y 560})]
-      (spawn-in-mushmom monster stump/actions))))
+  (spawn-in-mushmom (stump/birth :origin {:x 300 :y 560} :x-span 100) stump/actions)
+  (spawn-in-mushmom (stump/birth :origin {:x 500 :y 560} :x-span 100) stump/actions))
 
 (spawn!)
 
