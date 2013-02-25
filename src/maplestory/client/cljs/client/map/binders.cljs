@@ -8,18 +8,18 @@
 (def open-fn
   (fn [] (.log js/console "Connection established.")))
 
-(defmulti init (fn [entity _] entity))
+(defmulti init :entity)
 
-(defmethod init :sera [_ state] (sera/init state))
+(defmethod init :sera [{:keys [state]}] (sera/init state))
 
-(defmethod init :slime [_ state] (slime/init state))
+(defmethod init :slime [{:keys [state]}] (slime/init state))
 
-(defmethod init :stump [_ state] (stump/init state))
+(defmethod init :stump [{:keys [state]}] (stump/init state))
 
 (defn initialize [environment]
   (doseq [[entity state] environment]
     (swap! entities conj (:id state))
-    (init entity state)))
+    (init {:entity entity :state state})))
 
 (defmulti update :who)
 
