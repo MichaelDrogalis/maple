@@ -12,5 +12,5 @@
                 :else (flip monster))))
   (Thread/sleep 1000))
 
-(def actions [[walk walk walk walk] stand! walk flip!])
+(def actions [walk])
 
