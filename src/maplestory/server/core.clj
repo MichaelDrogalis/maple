@@ -1,6 +1,7 @@
 (ns maplestory.server.core
   (:require [maplestory.server.map.henesys :as henesys]
             [maplestory.server.map.mushmom :as mushmom]
+            [maplestory.server.map.binders :as b]
             [maplestory.client.views :refer [henesys-view mushmom-view]])
   (:import [org.webbitserver WebServer WebServers WebSocketHandler HttpHandler]
            [org.webbitserver.handler StaticFileHandler]))
@@ -18,19 +19,19 @@
               (.content (view))
               (.end))))))
 
-(defn add-socket-handler [map-name register-fn unregister-fn]
+(defn add-socket-handler [map-name connections entities]
   (.add server (str "/maps/" map-name "/socket")
         (proxy [WebSocketHandler] []
-          (onOpen [c] (register-fn c))
+          (onOpen [c] (b/register-client c connections entities))
           (onMessage [c m] (println c ": " m))
-          (onClose [c] (unregister-fn c)))))
+          (onClose [c] (b/unregister-client c connections entities)))))
 
-(defn add-map! [map-name view register-fn unregister-fn]
+(defn add-map! [map-name view connections entities]
   (add-map-handler map-name view)
-  (add-socket-handler map-name register-fn unregister-fn))
+  (add-socket-handler map-name connections entities))
 
-(add-map! "henesys" henesys-view henesys/register-client henesys/unregister-client)
-(add-map! "mushmom" mushmom-view mushmom/register-client mushmom/unregister-client)
+(add-map! "henesys" henesys-view henesys/connections henesys/entities)
+(add-map! "mushmom" mushmom-view mushmom/connections mushmom/entities)
 
 (.start server)
 
