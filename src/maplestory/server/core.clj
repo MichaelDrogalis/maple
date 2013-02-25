@@ -9,33 +9,28 @@
 
 (.add server (StaticFileHandler. "resources/public"))
 
-(.add server "/maps/henesys/socket"
-      (proxy [WebSocketHandler] []
-        (onOpen [c] (henesys/register-client c))
-        (onMessage [c m] (println c ": " m))
-        (onClose [c] (henesys/unregister-client c))))
+(defn add-map-handler [map-name view]
+  (.add server (str "/maps/" map-name)
+        (proxy [HttpHandler] []
+          (handleHttpRequest [_ response _]
+            (doto response
+              (.header "Content-Type", "text/html")
+              (.content (view))
+              (.end))))))
 
-(.add server "/maps/henesys"
-      (proxy [HttpHandler] []
-        (handleHttpRequest [_ response _]
-          (doto response
-            (.header "Content-Type", "text/html")
-            (.content (henesys-view))
-            (.end)))))
+(defn add-socket-handler [map-name register-fn unregister-fn]
+  (.add server (str "/maps/" map-name "/socket")
+        (proxy [WebSocketHandler] []
+          (onOpen [c] (register-fn c))
+          (onMessage [c m] (println c ": " m))
+          (onClose [c] (unregister-fn c)))))
 
-(.add server "/maps/mushmom"
-      (proxy [HttpHandler] []
-        (handleHttpRequest [_ response _]
-          (doto response
-            (.header "Content-Type", "text/html")
-            (.content (mushmom-view))
-            (.end)))))
+(defn add-map! [map-name view register-fn unregister-fn]
+  (add-map-handler map-name view)
+  (add-socket-handler map-name register-fn unregister-fn))
 
-(.add server "/maps/mushmom/socket"
-      (proxy [WebSocketHandler] []
-        (onOpen [c] (mushmom/register-client c))
-        (onMessage [c m] (println c ": " m))
-        (onClose [c] (mushmom/unregister-client c))))
+(add-map! "henesys" henesys-view henesys/register-client henesys/unregister-client)
+(add-map! "mushmom" mushmom-view mushmom/register-client mushmom/unregister-client)
 
 (.start server)
 
