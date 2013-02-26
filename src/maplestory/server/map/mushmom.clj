@@ -16,8 +16,12 @@
   (register-map! map-name)
   (spawn map-name (birth stump/spawn-state
                          :origin {:x 300 :y 560}
-                         :boundaries {:x {:left 200 :right 500}}) stump/actions)
+                         :boundaries {:x {:left 200 :right 500}}
+                         :map specs)
+         stump/actions)
   (spawn map-name (birth stump/spawn-state
-                         :origin {:x 500 :y 560}
-                         :boundaries {:x {:left 100 :right 600}}) stump/actions))
+                         :origin {:x 700 :y 560}
+                         :boundaries {:x {:left 600 :right 1000}}
+                         :map specs)
+         stump/actions))
 

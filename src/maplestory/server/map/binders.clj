@@ -7,13 +7,13 @@
   (swap! maps assoc map-name {:connections (ref #{}) :entities (atom #{})}))
 
 (defn bind-client-to-monster [connection entity]
-  (.send connection (pr-str {:type :init :message {(:type @entity) @entity}})))
+  (.send connection (pr-str {:type :init :message {(:type @entity) (dissoc @entity :map)}})))
 
 (defn add-client-watch [connection entity]
   (add-watch entity
              connection
              (fn [_ _ _ state]
-               (.send connection (pr-str {:type :update :message {:who (:type @entity) :event @entity}})))))
+               (.send connection (pr-str {:type :update :message {:who (:type @entity) :event (dissoc @entity :map)}})))))
 
 (defn register-client [connection connections entities]
   (dosync
@@ -44,4 +44,3 @@
                            {:id (name (gensym))})]
     (agent entity-data)))
 
-; (prn (first @(:entities (:mushmom @maps))))

@@ -21,14 +21,20 @@
       (* -1 step-length)
       (* -1 (- x (:left (:x boundaries)))))))
 
+(defn drop-elevation [target-x current-y footing]
+  (if (get footing {:x target-x :y current-y})
+    current-y
+    (recur target-x (inc current-y) footing)))
+
 (defn move! [state]
   (send state
-        (fn [{:keys [position step direction boundaries] :as monster}]
-          (assoc
-              (assoc-in monster
-                           [:position :x] (+ (:x position)
-                                             (units-in-direction position step direction boundaries)))
-            :action :walk)))
+        (fn [{:keys [position step direction boundaries map] :as monster}]
+          (let [target-x (+ (:x position) (units-in-direction position step direction boundaries))]
+            (assoc
+                (assoc-in
+                 (assoc-in monster [:position :x] target-x)
+                 [:position :y] (drop-elevation target-x (get-in monster [:position :y]) (:footing map)))
+              :action :walk))))
   (Thread/sleep 1000))
 
 (defn move [state]
