@@ -9,18 +9,18 @@
             :footing (union (platform :from 249 :to 562  :on 240)
                             (platform :from 612 :to 742  :on 301)
                             (platform :from 165 :to 650  :on 423)
-                            (platform :from 72  :to 473  :on 600)
+                            (platform :from 72  :to 746  :on 600)
                             (platform :from 72  :to 1108 :on 871))})
 
 (let [map-name :mushmom]
   (register-map! map-name)
   (spawn map-name (birth stump/spawn-state
-                         :origin {:x 300 :y 560}
+                         :origin {:x 300 :y 600}
                          :boundaries {:x {:left 200 :right 500}}
                          :map specs)
          stump/actions)
   (spawn map-name (birth stump/spawn-state
-                         :origin {:x 700 :y 560}
+                         :origin {:x 700 :y 600}
                          :boundaries {:x {:left 600 :right 1000}}
                          :map specs)
          stump/actions))

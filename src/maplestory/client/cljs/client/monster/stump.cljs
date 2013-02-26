@@ -7,10 +7,13 @@
 (defhtml stump-container [id]
   [:div {:type :stump :id id}])
 
+(defn offset-height [y]
+  (- y 40))
+
 (defn init [{:keys [id position direction]}]
   (.append (jq "body") (stump-container id))
   (.css (jq-id id) "left" (:x position))
-  (.css (jq-id id) "top" (:y position))
+  (.css (jq-id id) "top" (offset-height (:y position)))
   (if (= direction :right)
     (.addClass (jq-id id) "mirrored"))
   (.css (jq-id id) "visibility" "visible"))
@@ -27,7 +30,7 @@
 
 (defmethod update :walk [{:keys [id position]}]
   (swap-image! id 250 ["stump-move0" "stump-move1" "stump-move2" "stump-move3"])
-  (.animate (jq-id id) (clj->js {:left (:x position) :top (:y position)}) 1000))
+  (.animate (jq-id id) (clj->js {:left (:x position) :top (offset-height (:y position))}) 1000))
 
 (defmethod update :default [])
 

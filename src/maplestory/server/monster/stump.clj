@@ -22,7 +22,7 @@
       (* -1 (- x (:left (:x boundaries)))))))
 
 (defn drop-elevation [target-x current-y footing]
-  (if (get footing {:x target-x :y current-y})
+  (if (contains? footing {:x target-x :y current-y})
     current-y
     (recur target-x (inc current-y) footing)))
 
