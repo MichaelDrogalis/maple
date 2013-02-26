@@ -38,6 +38,10 @@
       (add-client-watch connection entity))))
 
 (defn birth [spawn-state & {:as options}]
-  (let [entity-data (merge spawn-state (:origin spawn-state) options (:origin options) {:id (name (gensym))})]
+  (let [entity-data (merge spawn-state
+                           options
+                           {:position (:origin options)}
+                           {:id (name (gensym))})]
     (agent entity-data)))
 
+; (prn (first @(:entities (:mushmom @maps))))
