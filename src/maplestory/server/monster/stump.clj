@@ -3,7 +3,7 @@
 
 (def spawn-state {:type :stump
                   :direction :left
-                  :step 20
+                  :step 10
                   :action :walk})
 
 (defn should-turn-around? [{:keys [x]} direction boundaries]
