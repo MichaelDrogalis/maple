@@ -1,6 +1,8 @@
 (ns client.map.binders
   (:require [client.npc.sera :as sera]
+            [client.monster.slime :as slime]
             [client.monster.stump :as stump]
+            [client.monster.orange-mushroom :as orange-mushroom]
             [cljs.reader :refer [read-string]]))
 
 (def entities (atom #{}))
@@ -16,6 +18,8 @@
 
 (defmethod init :stump [{:keys [state]}] (stump/init state))
 
+(defmethod init :orange-mushroom [{:keys [state]}] (orange-mushroom/init state))
+
 (defn initialize [environment]
   (doseq [[entity state] environment]
     (swap! entities conj (:id state))
@@ -28,6 +32,8 @@
 (defmethod update :slime [{:keys [event]}] (slime/update event))
 
 (defmethod update :stump [{:keys [event]}] (stump/update event))
+
+(defmethod update :orange-mushroom [{:keys [event]}] (orange-mushroom/update event))
 
 (def message-fn
   (fn [response]

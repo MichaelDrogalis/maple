@@ -1,6 +1,7 @@
 (ns maplestory.server.map.mushmom
   (:require [clojure.set :refer [union]]
             [maplestory.server.monster.stump :as stump]
+            [maplestory.server.monster.orange-mushroom :as shroom]
             [maplestory.server.movement :refer [scheduler platform]]
             [maplestory.server.map.binders :refer [register-map! spawn birth]]))
 
@@ -23,5 +24,10 @@
                          :origin {:x 700 :y 600}
                          :boundaries {:x {:left 600 :right 1000}}
                          :map specs)
-         stump/actions))
+         stump/actions)
+  (spawn map-name (birth shroom/spawn-state
+                         :origin {:x 300 :y 871}
+                         :boundaries {:x {:left 200 :right 900}}
+                         :map specs)
+         shroom/actions))
 

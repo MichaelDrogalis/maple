@@ -1,6 +1,6 @@
 [type="stump"] {
-    position: absolute;
     background: url(/images/stump/character.png) no-repeat top left;
+    position: absolute;
     visibility: hidden;
 }
 

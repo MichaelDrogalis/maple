@@ -1,8 +1,7 @@
 [type="orange-mushroom"] {
-    background-position: 0 -858px;
+    background: url(/images/orange-mushroom/character.png) no-repeat top left;
     position: absolute;
-    width: 64px;
-    height: 49px;
+    visibility: hidden;
 }
 
 .orange-mushroom-die10{ background-position: 0 0; width: 61px; height: 59px; } 
