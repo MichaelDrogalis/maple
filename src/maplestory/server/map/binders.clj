@@ -3,17 +3,20 @@
 
 (def maps (atom {}))
 
+(defn compress [entity]
+  (dissoc entity :map))
+
 (defn register-map! [map-name]
   (swap! maps assoc map-name {:connections (ref #{}) :entities (atom #{})}))
 
 (defn bind-client-to-monster [connection entity]
-  (.send connection (pr-str {:type :init :message {(:type @entity) (dissoc @entity :map)}})))
+  (.send connection (pr-str {:type :init :message {(:type @entity) (compress @entity)}})))
 
 (defn add-client-watch [connection entity]
   (add-watch entity
              connection
              (fn [_ _ _ state]
-               (.send connection (pr-str {:type :update :message {:who (:type @entity) :event (dissoc @entity :map)}})))))
+               (.send connection (pr-str {:type :update :message {:who (:type @entity) :event (compress @entity)}})))))
 
 (defn register-client [connection connections entities]
   (dosync

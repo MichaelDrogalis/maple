@@ -1,6 +1,9 @@
 (ns maplestory.test.map.binders-test
   (:require [midje.sweet :refer [fact =>]]
-            [maplestory.server.map.binders :refer [birth]]))
+            [maplestory.server.map.binders :refer [compress birth]]))
+
+(fact (compress {:hp 100}) => {:hp 100})
+(fact (compress {:map :specs}) => {})
 
 (fact (:id @(birth {})) =not=> nil)
 
