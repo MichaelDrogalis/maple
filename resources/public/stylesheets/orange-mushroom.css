@@ -1,0 +1,18 @@
+[type="orange-mushroom"] {
+    background-position: 0 -858px;
+    position: absolute;
+    width: 64px;
+    height: 49px;
+}
+
+.orange-mushroom-die10{ background-position: 0 0; width: 61px; height: 59px; } 
+.orange-mushroom-die11{ background-position: 0 -109px; width: 59px; height: 52px; } 
+.orange-mushroom-die12{ background-position: 0 -211px; width: 59px; height: 44px; } 
+.orange-mushroom-hit10{ background-position: 0 -305px; width: 62px; height: 65px; } 
+.orange-mushroom-jump0{ background-position: 0 -420px; width: 62px; height: 64px; } 
+.orange-mushroom-move0{ background-position: 0 -534px; width: 64px; height: 55px; } 
+.orange-mushroom-move1{ background-position: 0 -639px; width: 62px; height: 64px; } 
+.orange-mushroom-move2{ background-position: 0 -753px; width: 63px; height: 55px; } 
+.orange-mushroom-stand0{ background-position: 0 -858px; width: 63px; height: 58px; } 
+.orange-mushroom-stand1{ background-position: 0 -966px; width: 63px; height: 55px; } 
+
