@@ -11,6 +11,7 @@
     (include-css "/stylesheets/stump.css")
     (include-css "/stylesheets/orange-mushroom.css")
     (include-js "http://code.jquery.com/jquery-latest.min.js")
+    (include-js "/javascripts/GX.js")
     (include-js "/javascripts/websockets.js")
     (include-js "/javascripts/main.js")
     [:body

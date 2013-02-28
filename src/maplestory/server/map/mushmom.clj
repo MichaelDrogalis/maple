@@ -24,10 +24,5 @@
                          :origin {:x 700 :y 600}
                          :boundaries {:x {:left 600 :right 1000}}
                          :map specs)
-         stump/actions)
-  (spawn map-name (birth shroom/spawn-state
-                         :origin {:x 300 :y 871}
-                         :boundaries {:x {:left 200 :right 900}}
-                         :map specs)
-         shroom/actions))
+         stump/actions))
 

@@ -13,6 +13,11 @@
                 (next-fn))))
     (.dequeue (jq-id selector) queue)))
 
+(defn addClass [element class]
+  (if (.hasClass element "mirrored")
+    (.attr element "class" (str "mirrored" " " class))
+    (.attr element "class" class)))
+
 (defn init [{:keys [id position direction]} container offset-height]
   (.append (jq "body") (container id))
   (.css (jq-id id) "left" (:x position))

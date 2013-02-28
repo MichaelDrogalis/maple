@@ -35,7 +35,7 @@
                  (assoc-in monster [:position :x] target-x)
                  [:position :y] (drop-elevation target-x (get-in monster [:position :y]) (:footing map)))
               :action :walk))))
-  (Thread/sleep 1000))
+  (Thread/sleep 450))
 
 (defn move [state]
   (let [{:keys [position direction boundaries]} @state]

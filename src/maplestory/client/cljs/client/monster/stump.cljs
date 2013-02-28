@@ -21,8 +21,13 @@
   (animate/swap-image! id 2000 ["stump-stand0"]))
 
 (defmethod update :walk [{:keys [id position]}]
-  (animate/swap-image! id 250 ["stump-move0" "stump-move1" "stump-move2" "stump-move3"])
-  (.animate (jq-id id) (clj->js {:left (:x position) :top (- (:y position) offset)}) 1000))
+  (.animate (jq-id id) (clj->js {:left (:x position)}))
+  (doseq [n (range 4)]
+    (.gx (jq-id id)
+         (clj->js {})
+         110
+         "Linear"
+         (clj->js {:start (fn [el] (animate/addClass el (str "stump-move" n)))}))))
 
 (defmethod update :default [])
 
