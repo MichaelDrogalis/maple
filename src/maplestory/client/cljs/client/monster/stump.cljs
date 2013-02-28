@@ -21,7 +21,7 @@
   (animate/swap-image! id 2000 ["stump-stand0"]))
 
 (defmethod update :walk [{:keys [id position]}]
-  (.animate (jq-id id) (clj->js {:left (:x position)}))
+  (.animate (jq-id id) (clj->js {:left (:x position) :top (- (:y position) offset)}))
   (doseq [n (range 4)]
     (.gx (jq-id id)
          (clj->js {})
