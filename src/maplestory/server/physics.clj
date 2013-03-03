@@ -32,3 +32,7 @@
 (defn platform [& {:keys [from to on]}]
   (reduce #(conj %1 {:x %2 :y on}) #{} (range from (inc to))))
 
+(defn entity-scheduler [entity f]
+  (send entity f)
+  (Thread/sleep (:sleep-ms (:transient @entity))))
+
