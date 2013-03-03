@@ -1,6 +1,6 @@
 (ns maplestory.test.physics-test
   (:require [midje.sweet :refer [fact =>]]
-            [maplestory.server.movement :refer [flip-direction flip platform]]))
+            [maplestory.server.physics :refer [flip-direction flip platform]]))
 
 (fact (flip-direction :left) => :right)
 (fact (flip-direction :right) => :left)
