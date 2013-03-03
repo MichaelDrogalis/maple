@@ -19,6 +19,16 @@
 (fact (should-turn-around? {:x 3} :right {:x {:right 4}}) => false)
 (fact (should-turn-around? {:x 3} :right {:x {:right 3}}) => true)
 
+(fact (units-in-direction {:x 0} 2 :right {:x {:right 4}}) => 2)
+(fact (units-in-direction {:x 0} 2 :right {:x {:right 3}}) => 2)
+(fact (units-in-direction {:x 0} 2 :right {:x {:right 2}}) => 2)
+(fact (units-in-direction {:x 0} 2 :right {:x {:right 1}}) => 1)
+
+(fact (units-in-direction {:x 4} 2 :left {:x {:left 0}}) => -2)
+(fact (units-in-direction {:x 4} 2 :left {:x {:left 1}}) => -2)
+(fact (units-in-direction {:x 4} 2 :left {:x {:left 2}}) => -2)
+(fact (units-in-direction {:x 4} 2 :left {:x {:left 3}}) => -1)
+
 (fact (drop-elevation 1 0 #{{:x 0 :y 0} {:x 1 :y 0}}) => 0)
 (fact (drop-elevation 1 1 #{{:x 0 :y 1} {:x 1 :y 2}}) => 2)
 
