@@ -3,14 +3,6 @@
 (defn flip-direction [direction]
   (get {:left :right :right :left} direction))
 
-(defn can-move-left? [origin current span direction]
-  (and (< (- origin current) span)
-       (= direction :left)))
-
-(defn can-move-right? [origin current span direction]
-  (and (< (- current origin) span)
-       (= direction :right)))
-
 (defn stand! [state]
   (send state (fn [monster] (assoc monster :action :stand)))
   (Thread/sleep 2000))
@@ -51,14 +43,17 @@
       (>= x right)
       (<= x left))))
 
+(defn directionally [k direction]
+  (let [k (Math/abs k)]
+    (if (= direction :left)
+      (* k -1)
+      k)))
+
 (defn units-in-direction [{:keys [x]} step-length direction boundaries]
-  (if (= direction :right)
-    (if (<= step-length (- (:right (:x boundaries)) x))
-      step-length
-      (- (:right (:x boundaries)) x))
-    (if (<= step-length (- x (:left (:x boundaries))))
-      (* -1 step-length)
-      (* -1 (- x (:left (:x boundaries)))))))
+  (let [length-to-boundary (- (get (:x boundaries) direction) x)]
+    (if (<= step-length (Math/abs length-to-boundary))
+      (directionally step-length direction)
+      (directionally length-to-boundary direction))))
 
 (defn drop-elevation [target-x current-y footing]
   (if (contains? footing {:x target-x :y current-y})
