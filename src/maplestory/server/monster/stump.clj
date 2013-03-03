@@ -1,30 +1,10 @@
 (ns maplestory.server.monster.stump
-  (:require [maplestory.server.movement :refer [can-move-right? can-move-left? stand! flip! flip]]))
+  (:require [maplestory.server.physics :refer [should-turn-around? stand! flip! flip units-in-direction drop-elevation]]))
 
 (def spawn-state {:type :stump
                   :direction :left
                   :step 10
                   :action :walk})
-
-(defn should-turn-around? [{:keys [x]} direction boundaries]
-  (let [{:keys [left right]} (:x boundaries)]
-    (if (= direction :right)
-      (>= x right)
-      (<= x left))))
-
-(defn units-in-direction [{:keys [x]} step-length direction boundaries]
-  (if (= direction :right)
-    (if (<= step-length (- (:right (:x boundaries)) x))
-      step-length
-      (- (:right (:x boundaries)) x))
-    (if (<= step-length (- x (:left (:x boundaries))))
-      (* -1 step-length)
-      (* -1 (- x (:left (:x boundaries)))))))
-
-(defn drop-elevation [target-x current-y footing]
-  (if (contains? footing {:x target-x :y current-y})
-    current-y
-    (recur target-x (inc current-y) footing)))
 
 (defn move! [state]
   (send state

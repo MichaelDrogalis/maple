@@ -1,4 +1,4 @@
-(ns maplestory.server.movement)
+(ns maplestory.server.physics)
 
 (defn flip-direction [direction]
   (get {:left :right :right :left} direction))
@@ -32,7 +32,36 @@
 (defn platform [& {:keys [from to on]}]
   (reduce #(conj %1 {:x %2 :y on}) #{} (range from (inc to))))
 
-(defn entity-scheduler [entity f]
+(defn entity-scheduler [entity f p]
   (send entity f)
-  (Thread/sleep (:sleep-ms (:transient @entity))))
+  (Thread/sleep (:sleep-ms (:transient @entity)))
+  ;;; todo: Strip transient map here.
+  (deliver p))
+
+(defn ms-for-pixels [length rate]
+  (/  (* 140 length) rate))
+
+(defn total-pixels-moved [old-x old-y new-x new-y]
+  (int (Math/sqrt (+ (Math/pow (Math/abs (- new-x old-x)) 2)
+                     (Math/pow (Math/abs (- new-y old-y)) 2)))))
+
+(defn should-turn-around? [{:keys [x]} direction boundaries]
+  (let [{:keys [left right]} (:x boundaries)]
+    (if (= direction :right)
+      (>= x right)
+      (<= x left))))
+
+(defn units-in-direction [{:keys [x]} step-length direction boundaries]
+  (if (= direction :right)
+    (if (<= step-length (- (:right (:x boundaries)) x))
+      step-length
+      (- (:right (:x boundaries)) x))
+    (if (<= step-length (- x (:left (:x boundaries))))
+      (* -1 step-length)
+      (* -1 (- x (:left (:x boundaries)))))))
+
+(defn drop-elevation [target-x current-y footing]
+  (if (contains? footing {:x target-x :y current-y})
+    current-y
+    (recur target-x (inc current-y) footing)))
 
