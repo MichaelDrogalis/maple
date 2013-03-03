@@ -15,5 +15,5 @@
              :direction :left
              :speed 15
              :map {:footing (platform :from 0 :to 25 :on 0)}}]
-  (fact (change-position state) => (assoc state :action :move :position {:x 10 :y 0} :transient {:sleep-ms 140})))
+  (fact (move state) => (assoc state :action :move :position {:x 10 :y 0} :transient {:sleep-ms 140})))
 
