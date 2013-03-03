@@ -4,7 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :repositories {"stuart" "http://stuartsierra.com/maven2"}
-  :dependencies [[org.clojure/clojure "1.5.0-RC16"]
+  :dependencies [[org.clojure/clojure "1.5.0"]
                  [org.webbitserver/webbit "0.4.3"]
                  [com.stuartsierra/lazytest "1.2.3"]
                  [hiccup "1.0.2"]
