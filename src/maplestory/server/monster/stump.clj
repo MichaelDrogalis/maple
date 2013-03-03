@@ -21,5 +21,13 @@
     (flip monster)
     (change-position monster)))
 
-(def actions [move])
+(defn next-action [_]
+  move)
+
+(defn scheduler [monster]
+  (fn []
+    (doseq [_ (range 0 10)]
+      (println "Goin")
+      (send monster move)
+      (Thread/sleep (:sleep-ms (:transient @monster))))))
 

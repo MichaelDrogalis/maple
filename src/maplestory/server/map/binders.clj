@@ -1,7 +1,6 @@
-(ns maplestory.server.map.binders
-  (:require [maplestory.server.movement :refer [scheduler]]))
+(ns maplestory.server.map.binders)
 
-(def maps (atom {}))
+(defonce maps (atom {}))
 
 (defn compress [entity]
   (dissoc entity :map))
@@ -21,21 +20,20 @@
 (defn register-client [connection connections entities]
   (dosync
    (commute connections conj connection)
-   (doseq [entity @entities]
+   (doseq [{:keys [entity]} @entities]
      (bind-client-to-monster connection entity)
      (add-client-watch connection entity))))
 
 (defn unregister-client [connection connections entities]
   (dosync
    (commute connections disj connection)
-   (doseq [entity @entities]
+   (doseq [{:keys [entity]} @entities]
      (remove-watch entity connection))))
 
-(defn spawn [map-name entity actions]
+(defn spawn [map-name entity scheduler]
   (let [connections (get-in @maps [map-name :connections])
         entities    (get-in @maps [map-name :entities])]
-    (swap! entities conj entity)
-    (future (scheduler entity actions))
+    (swap! entities conj {:entitity entity :scheduler (future (scheduler entity))})
     (doseq [connection @connections]
       (bind-client-to-monster connection entity)
       (add-client-watch connection entity))))

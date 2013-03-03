@@ -13,22 +13,8 @@
 (defn flip! [state]
   (send state flip))
 
-(defn scheduler [agent actions]
-  (doseq [action (shuffle actions)]
-    (if (sequential? action)
-      (doseq [subaction action]
-        (subaction agent))
-      (action agent)))
-  (recur agent actions))
-
 (defn platform [& {:keys [from to on]}]
   (reduce #(conj %1 {:x %2 :y on}) #{} (range from (inc to))))
-
-(defn entity-scheduler [entity f p]
-  (send entity f)
-  (Thread/sleep (:sleep-ms (:transient @entity)))
-  ;;; todo: Strip transient map here.
-  (deliver p))
 
 (defn ms-for-pixels [length rate]
   (/  (* 140 length) rate))

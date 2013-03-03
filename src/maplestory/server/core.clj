@@ -1,12 +1,11 @@
 (ns maplestory.server.core
-  (:require [maplestory.server.map.henesys :as henesys]
-            [maplestory.server.map.mushmom :as mushmom]
+  (:require [maplestory.server.map.mushmom :as mushmom]
             [maplestory.server.map.binders :as b]
             [maplestory.client.views :refer [henesys-view mushmom-view]])
   (:import [org.webbitserver WebServer WebServers WebSocketHandler HttpHandler]
            [org.webbitserver.handler StaticFileHandler]))
 
-(def server (WebServers/createWebServer 42800))
+(defonce server (WebServers/createWebServer 42800))
 
 (.add server (StaticFileHandler. "resources/public"))
 
@@ -32,8 +31,8 @@
   (add-view-handler map-name view)
   (add-socket-handler map-name))
 
-(add-view! :henesys henesys-view)
 (add-view! :mushmom mushmom-view)
 
 (.start server)
 
+; (.stop server)

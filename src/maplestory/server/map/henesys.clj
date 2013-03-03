@@ -6,8 +6,3 @@
 (def specs {:width  1241
             :height 613})
 
-(let [map-name :henesys]
-  (register-map! map-name)
-  (spawn map-name (birth sera/spawn-state) sera/actions)
-  (spawn map-name (birth stump/spawn-state :origin {:x 600 :y 496}) stump/actions))
-
