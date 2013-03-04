@@ -35,6 +35,7 @@
              (fn [_ _ _ state]
                (when-let [ms (:sleep-ms (:transient state))]
                  (Thread/sleep ms))
+               (Thread/sleep 75)
                (f state))))
 
 ;(remove-watch (first @(get-in @maps [:mushmom :entities])) :heartbeat)
