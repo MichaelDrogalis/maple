@@ -15,7 +15,9 @@
   (add-watch entity
              connection
              (fn [_ _ _ state]
-               (.send connection (pr-str {:type :update :message {:who (:type @entity) :event (compress @entity)}})))))
+               (.send connection
+                      (pr-str {:type :update :message {:who (:type @entity)
+                                                       :event (compress @entity)}})))))
 
 (defn register-client [connection connections entities]
   (dosync
@@ -37,8 +39,6 @@
                  (Thread/sleep ms))
                (Thread/sleep 75)
                (f state))))
-
-;(remove-watch (first @(get-in @maps [:mushmom :entities])) :heartbeat)
 
 (defn spawn [map-name entity f]
   (let [connections (get-in @maps [map-name :connections])

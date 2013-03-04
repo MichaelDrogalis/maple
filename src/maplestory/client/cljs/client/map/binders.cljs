@@ -46,7 +46,7 @@
   (apply str (last (partition-by (partial = \/) (.-URL js/document)))))
 
 (defn socket-for-map [map-name]
-  (js/$.websocket. (str "ws://localhost:42800/maps/" map-name "/socket")))
+  (js/$.websocket. (str "ws://129.21.129.174:42800/maps/" map-name "/socket")))
 
 (let [ws (socket-for-map (map-for-url))]
   (set! (.-onopen ws) open-fn)

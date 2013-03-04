@@ -12,7 +12,8 @@
 (fact (platform :from 0 :to 2 :on 1) => #{{:x 0 :y 1} {:x 1 :y 1} {:x 2 :y 1}})
 
 (fact (ms-for-pixels 45 15) => 420)
-(fact (total-pixels-moved 0 0 3 4) => 5)
+(fact (total-pixels-moved 0 3) => 3)
+(fact (total-pixels-moved 3 0) => 3)
 
 (fact (should-turn-around? {:x 1} :left {:x {:left 0}}) => false)
 (fact (should-turn-around? {:x 1} :left {:x {:left 1}}) => true)

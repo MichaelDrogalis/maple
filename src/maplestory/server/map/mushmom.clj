@@ -14,9 +14,16 @@
 
 (let [map-name :mushmom]
   (register-map! map-name)
-  (spawn map-name (birth stump/spawn-state
+  #_(spawn map-name (birth stump/spawn-state
                          :origin {:x 300 :y 600}
                          :boundaries {:x {:left 200 :right 500}}
                          :map specs)
          stump/scheduler))
+
+(spawn :mushmom (birth stump/spawn-state
+                         :origin {:x 300 :y 600}
+                         :boundaries {:x {:left 200 :right 900}}
+                         :map specs
+                         :direction :right)
+       stump/scheduler)
 

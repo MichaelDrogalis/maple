@@ -17,11 +17,13 @@
   (reduce #(conj %1 {:x %2 :y on}) #{} (range from (inc to))))
 
 (defn ms-for-pixels [length rate]
-  (/  (* 140 length) rate))
+  (/ (* 140 length) rate))
 
-(defn total-pixels-moved [old-x old-y new-x new-y]
-  (int (Math/sqrt (+ (Math/pow (Math/abs (- new-x old-x)) 2)
-                     (Math/pow (Math/abs (- new-y old-y)) 2)))))
+(defn ms-for-gravity [length]
+  (/ (* 140 length) 50))
+
+(defn total-pixels-moved [old-x new-x]
+  (Math/abs (- new-x old-x)))
 
 (defn should-turn-around? [{:keys [x]} direction boundaries]
   (let [{:keys [left right]} (:x boundaries)]
