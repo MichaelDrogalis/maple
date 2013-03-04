@@ -20,23 +20,35 @@
 (defn register-client [connection connections entities]
   (dosync
    (commute connections conj connection)
-   (doseq [{:keys [entity]} @entities]
+   (doseq [entity @entities]
      (bind-client-to-monster connection entity)
      (add-client-watch connection entity))))
 
 (defn unregister-client [connection connections entities]
   (dosync
    (commute connections disj connection)
-   (doseq [{:keys [entity]} @entities]
+   (doseq [entity @entities]
      (remove-watch entity connection))))
 
-(defn spawn [map-name entity scheduler]
+(defn add-heartbeat [entity f]
+  (add-watch entity :heartbeat
+             (fn [_ _ _ state]
+               (when-let [ms (:sleep-ms (:transient state))]
+                 (Thread/sleep ms))
+               (f state))))
+
+;(remove-watch (first @(get-in @maps [:mushmom :entities])) :heartbeat)
+
+(defn spawn [map-name entity f]
   (let [connections (get-in @maps [map-name :connections])
-        entities    (get-in @maps [map-name :entities])]
-    (swap! entities conj {:entitity entity :scheduler (future (scheduler entity))})
+        entities    (get-in @maps [map-name :entities])
+        scheduler   (f entity)]
+    (swap! entities conj entity)
+    (add-heartbeat entity scheduler)
     (doseq [connection @connections]
       (bind-client-to-monster connection entity)
-      (add-client-watch connection entity))))
+      (add-client-watch connection entity))
+    (scheduler entity)))
 
 (defn birth [spawn-state & {:as options}]
   (let [entity-data (merge spawn-state

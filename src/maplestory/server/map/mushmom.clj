@@ -2,7 +2,7 @@
   (:require [clojure.set :refer [union]]
             [maplestory.server.monster.stump :as stump]
             [maplestory.server.physics :refer [platform]]
-            [maplestory.server.map.binders :refer [register-map! spawn birth]]))
+            [maplestory.server.map.binders :refer [register-map! spawn birth maps]]))
 
 (def specs {:width  1176
             :height 1154
