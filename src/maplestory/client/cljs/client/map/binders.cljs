@@ -2,6 +2,7 @@
   (:require [client.npc.sera :as sera]
             [client.monster.slime :as slime]
             [client.monster.stump :as stump]
+            [client.monster.axe-stump :as axe-stump]
             [client.monster.orange-mushroom :as orange-mushroom]
             [cljs.reader :refer [read-string]]))
 
@@ -18,6 +19,8 @@
 
 (defmethod init :stump [{:keys [state]}] (stump/init state))
 
+(defmethod init :axe-stump [{:keys [state]}] (axe-stump/init state))
+
 (defmethod init :orange-mushroom [{:keys [state]}] (orange-mushroom/init state))
 
 (defn initialize [environment]
@@ -33,6 +36,8 @@
 
 (defmethod update :stump [{:keys [event]}] (stump/update event))
 
+(defmethod update :axe-stump [{:keys [event]}] (axe-stump/update event))
+
 (defmethod update :orange-mushroom [{:keys [event]}] (orange-mushroom/update event))
 
 (def message-fn
@@ -46,7 +51,7 @@
   (apply str (last (partition-by (partial = \/) (.-URL js/document)))))
 
 (defn socket-for-map [map-name]
-  (js/$.websocket. (str "ws://129.21.129.174:42800/maps/" map-name "/socket")))
+  (js/$.websocket. (str "ws://localhost:42800/maps/" map-name "/socket")))
 
 (let [ws (socket-for-map (map-for-url))]
   (set! (.-onopen ws) open-fn)

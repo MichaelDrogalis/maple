@@ -1,23 +1,21 @@
-(ns client.monster.stump
+(ns client.monster.axe-stump
   (:require-macros [hiccups.core :refer [defhtml]])
   (:require [hiccups.runtime :as hrt]
             [client.jquery :refer [jq jq-id]]
             [client.animation :as animate]))
 
-(def offset 40)
+(def offset 63)
 
-(defhtml stump-container [id]
-  [:div {:type :stump :id id}])
+(defhtml axe-stump-container [id]
+  [:div {:type :axe-stump :id id}])
 
 (defn init [monster]
-  (animate/init monster stump-container offset))
+  (animate/init monster axe-stump-container offset))
 
 (defmulti update :action)
 
 (defmethod update :flip [monster]
   (animate/flip monster))
-
-(defmethod update :stand [{:keys [id]}])
 
 (defmethod update :move [{:keys [id position transient]}]
   (let [sleep-time (:sleep-ms transient)]
@@ -28,7 +26,7 @@
              (clj->js {})
              (:sleep-ms transient)
              "Linear"
-             (clj->js {:start (fn [el] (animate/addClass el (str "stump-move" n)))}))))))
+             (clj->js {:start (fn [el] (animate/addClass el (str "axe-stump-move" n)))}))))))
 
 (defmethod update :default [])
 

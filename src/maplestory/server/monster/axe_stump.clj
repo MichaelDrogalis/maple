@@ -1,7 +1,7 @@
-(ns maplestory.server.monster.stump
+(ns maplestory.server.monster.axe-stump
   (:require [maplestory.server.physics :refer [move]]))
 
-(def spawn-state {:type :stump
+(def spawn-state {:type :axe-stump
                   :direction :left
                   :speed 10
                   :action :walk})

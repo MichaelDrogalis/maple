@@ -1,0 +1,18 @@
+[type="axe-stump"] {
+    background: transparent url(/images/axe-stump/character.png) 0 0 no-repeat;
+    position: absolute;
+    width: 74px;
+    height: 77px;
+}
+
+.axe-stump-die10{ background-position: 0 0; width: 61px; height: 92px; } 
+.axe-stump-die11{ background-position: -111px 0; width: 58px; height: 91px; } 
+.axe-stump-die12{ background-position: -219px 0; width: 61px; height: 84px; } 
+.axe-stump-die13{ background-position: -330px 0; width: 61px; height: 67px; } 
+.axe-stump-hit10{ background-position: -441px 0; width: 59px; height: 93px; } 
+.axe-stump-move0{ background-position: -550px 0; width: 62px; height: 74px; } 
+.axe-stump-move1{ background-position: -662px 0; width: 66px; height: 77px; } 
+.axe-stump-move2{ background-position: -778px 0; width: 65px; height: 73px; } 
+.axe-stump-move3{ background-position: -893px 0; width: 74px; height: 72px; } 
+.axe-stump-stand0{ background-position: -1017px 0; width: 62px; height: 74px; } 
+

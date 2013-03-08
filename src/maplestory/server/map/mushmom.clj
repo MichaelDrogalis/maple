@@ -1,6 +1,7 @@
 (ns maplestory.server.map.mushmom
   (:require [clojure.set :refer [union]]
             [maplestory.server.monster.stump :as stump]
+            [maplestory.server.monster.axe-stump :as axe-stump]
             [maplestory.server.physics :refer [platform]]
             [maplestory.server.map.binders :refer [register-map! spawn birth maps]]))
 
@@ -14,16 +15,16 @@
 
 (let [map-name :mushmom]
   (register-map! map-name)
-  #_(spawn map-name (birth stump/spawn-state
+  (spawn map-name (birth axe-stump/spawn-state
                          :origin {:x 300 :y 600}
                          :boundaries {:x {:left 200 :right 500}}
-                         :map specs)
-         stump/scheduler))
-
-(spawn :mushmom (birth stump/spawn-state
-                         :origin {:x 300 :y 600}
-                         :boundaries {:x {:left 200 :right 900}}
+                         :map specs
+                         :direction :left)
+         axe-stump/scheduler)
+  (spawn map-name (birth stump/spawn-state
+                         :origin {:x 500 :y 600}
+                         :boundaries {:x {:left 300 :right 600}}
                          :map specs
                          :direction :right)
-       stump/scheduler)
+         stump/scheduler))
 

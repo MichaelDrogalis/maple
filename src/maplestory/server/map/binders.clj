@@ -2,6 +2,8 @@
 
 (defonce maps (atom {}))
 
+;(:type @(first @(:entities (:mushmom @maps))))
+
 (defn compress [entity]
   (dissoc entity :map))
 
@@ -16,8 +18,9 @@
              connection
              (fn [_ _ _ state]
                (.send connection
-                      (pr-str {:type :update :message {:who (:type @entity)
-                                                       :event (compress @entity)}})))))
+                      (pr-str {:type :update
+                               :message {:who (:type @entity)
+                                         :event (compress @entity)}})))))
 
 (defn register-client [connection connections entities]
   (dosync

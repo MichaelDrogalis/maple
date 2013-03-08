@@ -9,6 +9,7 @@
     (include-css "/stylesheets/movement.css")
     (include-css "/stylesheets/sera.css")
     (include-css "/stylesheets/stump.css")
+    (include-css "/stylesheets/axe-stump.css")
     (include-css "/stylesheets/orange-mushroom.css")
     (include-js "http://code.jquery.com/jquery-latest.min.js")
     (include-js "/javascripts/GX.js")
