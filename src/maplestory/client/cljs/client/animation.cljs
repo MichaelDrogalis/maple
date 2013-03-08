@@ -31,3 +31,14 @@
     (.removeClass (jq-id id) "mirrored")
     (.addClass (jq-id id) "mirrored")))
 
+(defn move [{:keys [id position transient]} selector offset]
+  (let [sleep-time (:sleep-ms transient)]
+    (.animate (jq-id id) (clj->js {:left (:x position) :top (- (:y position) offset)}) sleep-time)
+    (let [frames (take (quot sleep-time (quot 140 4)) (cycle (range 0 4)))]
+      (doseq [n frames]
+        (.gx (jq-id id)
+             (clj->js {})
+             (:sleep-ms transient)
+             "Linear"
+             (clj->js {:start (fn [el] (addClass el (str selector n)))}))))))
+
